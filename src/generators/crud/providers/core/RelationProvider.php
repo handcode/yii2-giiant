@@ -259,11 +259,22 @@ EOS;
 
         if (!$this->generator->isPivotRelation($relation)) {
             // hasMany relations
-            $template = '{view} {update}';
+            // TODO: if accessFilter is set, we have to generate template according to User Permissions at runtime in views
+            if( $this->generator->accessFilter ) {
+                $template = '{view} {update}';
+            } else {
+                $template = '{view} {update}';
+            }
             $deleteButtonPivot = '';
         } else {
             // manyMany relations
-            $template = '{view} {delete}';
+            // TODO: if accessFilter is set, we have to generate template according to Usr Permissions
+            if( $this->generator->accessFilter ) {
+                $template = '{view} {update}';
+            } else {
+                $template = '{view} {delete}';
+            }
+
             $deleteButtonPivot = <<<EOS
 'delete' => function (\$url, \$model) {
                 return Html::a('<span class="glyphicon glyphicon-remove"></span>', \$url, [
